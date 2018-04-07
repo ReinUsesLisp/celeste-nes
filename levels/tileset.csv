@@ -1,0 +1,67 @@
+TL,TR,BL,BR,Name,Type
+00,02,12,4A,top left,0
+02,01,4B,13,top right,0
+04,05,8E,8E,top,0
+06,8E,16,8E,left,0
+08,09,18,19,block,0
+12,5A,10,03,bot left,0
+5B,13,03,11,bot right,0
+8E,8E,14,15,bot,0
+8E,07,8E,17,right,0
+00,01,24,25,vertical top,0
+00,27,10,37,horizontal left,0
+44,45,54,55,horizontal,0
+8E,8E,8E,8E,solid,0
+34,35,10,11,vertical bot,0
+26,01,36,11,horizontal right,0
+46,25,46,57,vertical,0
+48,49,58,59,solid bubbles,0
+60,61,70,71,top left ice,1
+62,63,72,79,top right ice,1
+62,65,72,64,top ice,1
+68,7A,78,64,left ice,1
+78,85,80,97,bot left ice,1
+64,79,97,83,bot right ice,1
+67,84,66,82,bot ice,1
+64,69,64,79,right ice,1
+60,61,96,82,horizontal left ice,1
+91,61,74,75,horizontal ice,1
+7E,7F,73,64,ice bubbles,1
+86,8B,80,9B,vertical bot ice,1
+62,63,81,83,horizontal right ice,1
+76,69,86,87,vertical ice,1
+00,21,20,4A,breakable top left,2
+22,01,4B,23,breakable top right,2
+30,5A,10,31,breakable bot left,2
+5B,33,32,11,breakable top right,2
+0A,0B,1A,1B,breakable,3
+0C,0C,1C,1C,bot spikes,4
+1E,1F,1E,1F,right spikes,4
+0D,0D,1D,1D,top spikes,4
+0E,0F,0E,0F,left spikes,4
+3C,3D,6E,8E,left roof house,5
+3D,3E,8E,6F,right roof house,5
+2C,2D,2E,2F,spring up,5
+64,64,6A,6A,bot back,6
+64,6A,64,6A,left back,6
+6B,6D,7B,6A,bubbles back,6
+40,41,50,51,top tree,6
+6A,6A,64,64,top back,6
+6A,64,6A,64,left back,6
+6C,6D,7C,7D,hole back,6
+42,43,52,53,bot tree,6
+64,88,88,6A,top left back,6
+89,64,6A,89,top right back,6
+64,88,6A,6A,top left horizontal back,6
+89,64,6A,6A,top right horizontal back,6
+6A,6A,6A,6A,back,6
+3F,6A,64,3F,bot left back,6
+6A,95,95,64,bot right back,6
+4C,4D,5C,5D,base left house,6
+4E,4F,5E,5F,base right house,6
+8C,8D,9C,9D,flower,6
+64,64,98,99,mgrass,6
+64,8F,9E,9F,vgrass,6
+64,64,2C,2D,spring down,6
+28,29,38,39,breakable2,6
+2A,2B,3A,3B,breakable3,6
