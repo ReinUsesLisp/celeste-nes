@@ -10,6 +10,8 @@ rebuild levels' binaries (unless you use msys2 and build it the *nix way)
 It's unfinished, but its core mechanics seem to work. It hasn't been tested on
 real hardware because I don't own an SD cartridge.
 
+Licensed under GPLv3. Read LICENSE for more details.
+
 Here's a TODO list:
 - Protagonist's TressFX and move animations (does she slide with her face?)
 - Death animation
