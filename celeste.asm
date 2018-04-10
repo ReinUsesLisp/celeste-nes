@@ -14,7 +14,6 @@
 	INCLUDE "load_world.asm"
 	INCLUDE "next_level.asm"
 	INCLUDE "strawberry.asm"
-	INCLUDE "cosmetics.asm"
 	INCLUDE "key.asm"
 	INCLUDE "tile.asm"
 	INCLUDE "breakable_block.asm"
@@ -197,4 +196,4 @@ tileset:
   
 	.bank 2
 	.org $0000
-	.incbin "lightblue.chr"
+	.incbin "celeste.chr"

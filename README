@@ -4,7 +4,7 @@ Original game: https://www.lexaloffle.com/bbs/?tid=2145
 To build on a *nix system: ./build.sh
 You'll need the following programs in your PATH: bash, python3, tiled, nesasm
 
-On Windows you can call NESASM on lightblue.asm, but you won't be able to
+On Windows you can call NESASM on celeste.asm, but you won't be able to
 rebuild levels' binaries (unless you use msys2 and build it the *nix way)
 
 It's unfinished, but its core mechanics seem to work. It hasn't been tested on
