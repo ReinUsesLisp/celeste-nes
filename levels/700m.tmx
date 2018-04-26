@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.4" orientation="orthogonal" renderorder="right-down" width="16" height="15" tilewidth="16" tileheight="16" infinite="0" nextobjectid="9">
+ <tileset firstgid="1" source="tileset.tsx"/>
+ <layer name="tiles" width="16" height="15">
+  <data encoding="csv">
+14,18,14,14,14,10,1,1,1,1,7,9,9,9,18,14,
+14,14,18,14,9,8,1,1,1,1,1,1,33,34,5,14,
+14,14,9,8,1,1,1,1,1,1,1,1,35,36,5,14,
+18,10,2,3,1,1,1,1,1,1,1,1,6,2,14,14,
+14,10,7,8,1,1,1,38,38,1,1,1,1,5,14,18,
+14,8,1,1,1,1,39,12,16,41,1,1,1,7,9,14,
+10,6,1,1,1,1,1,1,1,1,1,1,1,1,1,5,
+10,1,1,1,1,1,1,1,1,1,1,1,1,1,1,5,
+8,1,1,1,1,1,1,1,1,1,1,1,1,1,1,7,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,2,4,3,1,1,1,1,1,1,1,1,1,1,1,
+1,1,5,14,10,1,1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="4" type="right_cloud" x="78" y="168">
+   <point/>
+  </object>
+  <object id="5" type="left_cloud" x="213" y="114">
+   <point/>
+  </object>
+  <object id="7" type="jewel" x="94" y="57">
+   <point/>
+  </object>
+  <object id="8" type="startpos" x="49" y="187">
+   <point/>
+  </object>
+ </objectgroup>
+</map>

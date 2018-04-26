@@ -14,7 +14,8 @@ binary = bytearray(map(map_tile, tiles))
 sys.stdout.buffer.write(binary)
 
 # export objects
-keys = ["strawberry", "fly_strawberry", "chest", "key", "jewel"]
+keys = ["strawberry", "fly_strawberry", "chest", "key", "jewel",
+        "right_cloud", "left_cloud"]
 objects = data["layers"][1]["objects"]
 start_x = None
 start_y = None
