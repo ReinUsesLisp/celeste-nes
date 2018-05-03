@@ -64,15 +64,16 @@ LoadPalettes:
 	LDA #$00
 	STA PPUADDR
 	LDX #$00
-LoadPalettesLoop:
+.loop:
 	LDA palette, x
 	STA PPUDATA
 	INX
 	CPX #$20
-	BNE LoadPalettesLoop
+	BNE .loop
 
+ClearSprites:	
 	LDX #$00
-ClearSpritesLoop:
+.loop:
 	TXA
 	ASL A
 	ASL A
@@ -85,25 +86,25 @@ ClearSpritesLoop:
 	STA $0203, Y
 	INX
 	CPX #$40
-	BNE ClearSpritesLoop
+	BNE .loop
 
+	
 	JSR ClearWorld
 	JSR FirstLevel
 
 	JSR PPU_TurnON
 
-Loop:
+MainLoop:
 	JSR UpdatePlayer	
 	JSR UpdateSmoke
 	JSR UpdateStrawberry
 	JSR ReadInput
 	
 	INC nmi_retraces
-WaitNMI:
+.wait:
 	LDA nmi_retraces
-	BNE WaitNMI
-	JMP Loop
-
+	BNE .wait
+	JMP MainLoop
 
 	
 NMI:
@@ -113,48 +114,48 @@ NMI:
 	TYA
 	PHA
 	
-	;; Prepare OAM
+NMI_OAM:	
 	LDA flag_oam
-	BEQ NoOAM
+	BEQ .skip
 	LDA #$00
 	STA OAMADDR
 	LDA #$02
 	STA OAMDMA
 	DEC flag_oam
-NoOAM:	
+.skip:	
 
-	;; Draw player
+NMI_DrawPlayer:	
 	LDA flag_player
-	BEQ NoPlayer
+	BEQ .skip
 	JSR DrawPlayer
 	DEC flag_player
-NoPlayer:	
+.skip:	
 
-	;; Draw smoke
+NMI_DrawSmoke:	
 	LDA flag_smoke
-	BEQ NoSmoke
+	BEQ .skip
 	JSR DrawSmoke
 	DEC flag_smoke
-NoSmoke:
+.skip:
 
-	;; Draw strawberry
+NMI_DrawStrawberry:	
 	LDA flag_strawberry
-	BEQ NoStrawberry
+	BEQ .skip
 	JSR DrawStrawberry
 	DEC flag_strawberry
-NoStrawberry:
+.skip:
 
-	;; Hide block
+NMI_HideBlock:	
 	LDA flag_hide_block
-	BEQ NoHideBlock
+	BEQ .skip
 	JSR HideBreakable
 	LDA #$00
 	STA flag_hide_block
-NoHideBlock:	
+.skip:	
 
-	;; PPU Refresh
+NMI_PPU_Refresh:	
 	LDA flag_ppu_refresh
-	BEQ NoPPURefresh
+	BEQ .skip
 
 	LDA #PPU_CONTROL_FLAGS
 	STA PPUCTRL
@@ -165,7 +166,7 @@ NoHideBlock:
 	STA PPUSCROLL
 
 	DEC flag_ppu_refresh
-NoPPURefresh:
+.skip:
 	
 	INC frames
 	INC snowflakes_counter

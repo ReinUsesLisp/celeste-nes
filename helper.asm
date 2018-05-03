@@ -1,23 +1,23 @@
 Approach:
 	LDA value
 	CMP target
-	BNE ApproachL1
+	BNE .L1
 	LDA value+1
 	CMP target+1
-	BEQ ApproachSetTarget
+	BEQ .setTarget
 	
-ApproachL1:	
+.L1:	
 	LDA value
 	CMP target
 	LDA value+1
 	SBC target+1
-	BVC ApproachL2
+	BVC .L2
 	EOR #$80
-ApproachL2:
-	BMI ApproachPositive
-	JMP ApproachNegative
+.L2:
+	BMI .positive
+	JMP .negative
 
-ApproachPositive:
+.positive:
 	LDA value
 	CLC
 	ADC amount
@@ -30,13 +30,13 @@ ApproachPositive:
 	CMP target
 	TYA
 	SBC target+1
-	BVC ApproachL3
+	BVC .L3
 	EOR #$80
-ApproachL3:
-	BMI ApproachEnd
-	JMP ApproachSetTarget
+.L3:
+	BMI .end
+	JMP .setTarget
 
-ApproachNegative:
+.negative:
 	LDA value
 	SEC
 	SBC amount
@@ -49,15 +49,15 @@ ApproachNegative:
 	CMP target
 	TYA
 	SBC target+1
-	BVC ApproachL4
+	BVC .L4
 	EOR #$80
-ApproachL4:
-	BMI ApproachSetTarget
-	JMP ApproachEnd
+.L4:
+	BMI .setTarget
+	JMP .end
 
-ApproachSetTarget:
+.setTarget:
 	LDXY target
-ApproachEnd:	
+.end:	
 	RTS
 
 Multiply40:

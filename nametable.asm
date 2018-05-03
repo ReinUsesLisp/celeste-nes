@@ -7,14 +7,14 @@ ClearWorld:
 	STA PPUADDR
 	LDX #$00
 	LDY #$00
-CW_LoopNT:
+.loop1:
 	LDA #$FF
 	STA PPUDATA
 	INX
-	BNE CW_LoopNT
+	BNE .loop1
 	INY
 	CPY #$08
-	BNE CW_LoopNT
+	BNE .loop1
 
 	;; Clear attributes
 	LDA PPUSTATUS
@@ -23,12 +23,12 @@ CW_LoopNT:
 	LDA #$C0
 	STA PPUADDR
 	LDX #$00
-CW_LoopAT:	
+.loop2:	
 	LDA #$00
 	STA PPUDATA
 	INX
 	CPX #$40
-	BNE CW_LoopAT
+	BNE .loop2
 	RTS
 	
 LoadWorld:
@@ -39,13 +39,13 @@ LoadWorld:
 	STA PPUADDR
 
 	LDX #$00
-LW_L3:
+.L3:
 	TXA
 	PHA
 	
 	;; Copy top tiles
 	LDY #$00
-LW_L1:
+.L1:
 	LDA [world_pointer], Y
 	ASL A
 	ASL A
@@ -58,11 +58,11 @@ LW_L1:
 
 	INY
 	CPY #$10
-	BNE LW_L1
+	BNE .L1
 
 	;; Copy bot tiles
 	LDY #$00
-LW_L2:	
+.L2:	
 	LDA [world_pointer], Y
 	ASL A
 	ASL A
@@ -77,7 +77,7 @@ LW_L2:
 
 	INY
 	CPY #$10
-	BNE LW_L2
+	BNE .L2
 
 	;; Increment world pointer
 	LDA world_pointer
@@ -90,7 +90,7 @@ LW_L2:
 	TAX
 	INX
 	CPX #$0F
-	BNE LW_L3
+	BNE .L3
 
 	;; Reset world pointer
 	LDA #$00
@@ -98,7 +98,7 @@ LW_L2:
 
 	;; Now set attributes
 	LDY #$00
-LW_L4:
+.L4:
 	TYA
 	PHA
 	JSR SetAttribute
@@ -108,17 +108,17 @@ LW_L4:
 	INY
 	INY
 	CPY #$F0
-	BEQ LW_L6
+	BEQ .L6
 	TYA
 	AND #$0F
-	BNE LW_L4
+	BNE .L4
 	TYA
 	CLC
 	ADC #$10
 	TAY
-LW_L5:
-	JMP LW_L4
-LW_L6:	
+.L5:
+	JMP .L4
+.L6:	
 	RTS
 
 SetAttribute:

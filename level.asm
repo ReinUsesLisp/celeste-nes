@@ -10,14 +10,13 @@ NextLevel:
 	
 LoadLevel:
 	LDY #$00
-LL_CopyLoop:
+.loop:
 	LDA [world_pointer], Y
 	STA world, Y
 	INY
-	BNE LL_CopyLoop
+	BNE .loop
 	
-	LDA #$00
-	STA frames
+	MOVB #$00, frames
 
 	JSR LoadWorld
 	JSR PreparePlayer
@@ -30,32 +29,33 @@ LL_CopyLoop:
 	JSR PopWorld
 	STA player_y+1
 
-LL_NextObject:
+	;; Load objects
+.next:
 	JSR PopWorld
 	CMP #$FF
-	BEQ LL_Finish
+	BEQ .finish
 
 	CMP #$01
-	BEQ LL_Strawberry
+	BEQ .strawberry
 
 	CMP #$02
-	BEQ LL_FlyStrawberry
+	BEQ .flyStrawberry
 	
-	JMP LL_NextObject
+	JMP .next
 	
-LL_FlyStrawberry:
+.flyStrawberry:
 	JSR SetFlyStrawberry
-LL_Strawberry:
+.strawberry:
 	JSR LoadStrawberry
-	JMP LL_NextObject
+	JMP .next
 	
-	JMP LL_NextObject
+	JMP .next
 
-LL_Finish:
+.finish:
 	JSR LevelContainsBreakable
-	BNE LL_NoBreakable
+	BNE .noBreakable
 	MOVB #$00, strawberry_on
-LL_NoBreakable:	
+.noBreakable:	
 	
 	RTS
 
@@ -68,16 +68,16 @@ PopWorld:
 
 LevelContainsBreakable:
 	LDY #$00
-LCB_Loop:	
+.loop:	
 	LDA world, Y
 	CMP #TILE_BREAKABLE
-	BEQ LCB_Found
+	BEQ .found
 	INY
 	CPY #$F0
-	BNE LCB_Loop
+	BNE .loop
 	LDA #$01
 	RTS
-LCB_Found:
+.found:
 	LDA #$00
 	RTS
 	

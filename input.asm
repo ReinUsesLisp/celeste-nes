@@ -4,12 +4,12 @@ ReadInput:
 	LDA #$00
 	STA $4016
 	LDX #$8
-RI_Loop:
+.loop:
 	LDA $4016
 	LSR A
 	ROL buttons
 	DEX
-	BNE RI_Loop
+	BNE .loop
 	RTS
 
 InputA:

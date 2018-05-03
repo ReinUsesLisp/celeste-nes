@@ -1,7 +1,7 @@
 InitSnowflakes:
 	LDX #$00
 	LDA #$00
-ISF_Loop:	
+.loop:	
 	ADC #$12
 	AND #%10101010
 	STA snowflakes_x, X
@@ -10,7 +10,7 @@ ISF_Loop:
 	STA snowflakes_y, X
 	INX
 	CPX #$10
-	BNE ISF_Loop
+	BNE .loop
 	RTS
 
 UpdateSnowflakes:
@@ -21,9 +21,8 @@ UpdateSnowflakes:
 
 DrawSnowflakes:
 	
-DSF_Loop:
-	
+.loop:	
 	INX
 	CPX #$10
-	BNE DSF_Loop
+	BNE .loop
 	RTS

@@ -1,50 +1,50 @@
-;;; Update Speed Y
+SpeedY:	
 	MOVCW MAXFALL, target
 
 	;; Check for slow speed in Y
 	LDX speed_y
 	LDA speed_y+1
-	BEQ USY_SlowSpeedPositive
+	BEQ .slowSpeedPositive
 	CMP #$FF
-	BEQ USY_SlowSpeedNegative
+	BEQ .slowSpeedNegative
 
-USY_NormalGravity:	
+.normalGravity:	
 	LDXY #LOW(GRAVITY), #HIGH(GRAVITY)
-	JMP USY_GravityFinish
+	JMP .gravityFinish
 
-USY_SlowSpeedNegative:
+.slowSpeedNegative:
 	CPX #($100-SLOW_SPEED)
-	BPL USY_HalfGravity
-	JMP USY_NormalGravity
+	BPL .halfGravity
+	JMP .normalGravity
 
-USY_SlowSpeedPositive:
+.slowSpeedPositive:
 	CPX #SLOW_SPEED
-	BMI USY_HalfGravity
-	JMP USY_NormalGravity
+	BMI .halfGravity
+	JMP .normalGravity
 
-USY_HalfGravity:
+.halfGravity:
 	LDXY #LOW(HALF_GRAVITY), #HIGH(HALF_GRAVITY)
 
-USY_GravityFinish:
+.gravityFinish:
 	STXY amount
 
 	
 	;; Wall slide
 	LDA input
-	BEQ USY_SlideDone
+	BEQ .slideDone
 
 	LDA on_wall
-	BEQ USY_SlideDone
+	BEQ .slideDone
 
 	MOVCW GLIDE_MAXFALL, target
-USY_SlideDone:	
+.slideDone:	
 
 	
 	;; Apply gravity
 	LDA on_ground
-	BNE USY_GravityDone
+	BNE .gravityDone
 
 	MOVW speed_y, value
 	JSR Approach
 	STXY speed_y
-USY_GravityDone:	
+.gravityDone:	

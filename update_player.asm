@@ -1,102 +1,103 @@
+_UpdatePlayer:	
 	;; Check for pause
 	LDA paused
-	BEQ UP_NoPause
+	BEQ .noPause
 	RTS
-UP_NoPause:
+.noPause:
 
 	;; Calculate X direction (pressed by the player)
 	JSR InputLeft
-	BEQ UP_TryInputRight
+	BEQ .tryInputRight
 	LDX #$FF		; Left pressed, load -1
-	JMP UP_InputFinish
-UP_TryInputRight:	
+	JMP .inputFinish
+.tryInputRight:	
 	JSR InputRight
-	BEQ UP_InputNone
+	BEQ .inputNone
 	LDX #$01		; Right pressed, load 1
-	JMP UP_InputFinish
-UP_InputNone:
+	JMP .inputFinish
+.inputNone:
 	LDX #$00 		; None is pressed, load 0
-UP_InputFinish:
+.inputFinish:
 	STX input		; Store it
 		
 	;; Check for spikes
 	JSR InSpikes
-	BNE UP_NoSpikes
+	BNE .noSpikes
 	JSR KillPlayer
-UP_NoSpikes:	
+.noSpikes:	
 
 	;; Check for bottom death
 	LDA player_y+1
 	CMP #$78
-	BMI UP_BottomDeathDone
+	BMI .bottomDeathDone
 	JSR KillPlayer
-UP_BottomDeathDone:	
+.bottomDeathDone:	
 
 	;; Floor state
 	LDXY #$00, #$08
 	JSR SolidAt
-	BEQ UP_OnGround
+	BEQ .onGround
 	LDXY #$07, #$08
 	JSR SolidAt
-	BEQ UP_OnGround
+	BEQ .onGround
 	LDA #$00
-	JMP UP_OnGroundFinish
-UP_OnGround:
+	JMP .onGroundFinish
+.onGround:
 	LDA #$01
-UP_OnGroundFinish:
+.onGroundFinish:
 	STA on_ground
 
 	;; Wall state
 	LDA player_x+1
 	CMP #$02
-	BMI UP_NoWall
+	BMI .noWall
 	CMP #$78
-	BPL UP_NoWall
+	BPL .noWall
 	
 	LDXY #$FE, #$00		; Check left
 	JSR SolidAt
-	BEQ UP_WallOnLeft
+	BEQ .wallOnLeft
 	LDXY #$FF, #$07
 	JSR SolidAt
-	BEQ UP_WallOnLeft
+	BEQ .wallOnLeft
 
 	LDXY #$08, #$00		; Check right
 	JSR SolidAt
-	BEQ UP_WallOnRight
+	BEQ .wallOnRight
 	LDXY #$08, #$07
 	JSR SolidAt
-	BEQ UP_WallOnRight
-UP_NoWall:	
+	BEQ .wallOnRight
+.noWall:	
 	LDA #$00
-	JMP UP_WallSet
-UP_WallOnLeft:
+	JMP .wallSet
+.wallOnLeft:
 	LDA #$FF
-	JMP UP_WallSet
-UP_WallOnRight:
+	JMP .wallSet
+.wallOnRight:
 	LDA #$01
-UP_WallSet:
+.wallSet:
 	STA on_wall
 
 	;; Add smoke when landing
 	;;LDA on_ground		; Carried from above
-	BNE UP_LandSmokeDone	; Must be on ground
+	BNE .landSmokeDone	; Must be on ground
 	LDA was_on_ground
-	BEQ UP_LandSmokeDone	; Must come from air
+	BEQ .landSmokeDone	; Must come from air
 	LDXY #$00, #$04
 	JSR AddSmoke
-UP_LandSmokeDone:
+.landSmokeDone:
 
 	INCLUDE "jump_input.asm"
 
 	;; Dash input
 	LDXY #$00, #$00
 	JSR InputB
-	BEQ UP_InputDashFinish
+	BEQ .inputDashFinish
 	LDX #$01
 	LDA p_dash
-	BNE UP_InputDashFinish
+	BNE .inputDashFinish
 	LDY #$01
-UP_InputDashFinish:
+.inputDashFinish:
 	STX p_dash
 	STY dash
 
@@ -105,14 +106,14 @@ UP_InputDashFinish:
 	;; Update dash time
 	DEC dash_effect_time
 	
-	JMP_ZERO UP_DashTimeDone, dash_time
+	JMP_ZERO .dashTimeDone, dash_time
 
 	LDA frames
 	AND #%00000001
-	BEQ UP_SkipDashSmoke
+	BEQ .skipDashSmoke
 	LDXY #$02, #$00
 	JSR AddSmoke
-UP_SkipDashSmoke:	
+.skipDashSmoke:	
 	
 	DEC dash_time
 	
@@ -129,7 +130,7 @@ UP_SkipDashSmoke:
 	STXY speed_y
 	
 	
-UP_DashTimeDone:
+.dashTimeDone:
 
 	INCLUDE "speed_x.asm"
 	INCLUDE "speed_y.asm"
@@ -140,12 +141,12 @@ UP_DashTimeDone:
 
 	LDA player_y+1
 	CMP #$02
-	BPL UP_NoNextLevel
+	BPL .noNextLevel
 
 	JSR PPU_TurnOFF
 	JSR NextLevel
 	JSR PPU_Restore
-UP_NoNextLevel:	
+.noNextLevel:	
 	
 	;; FIXME what happens if NMI gets between STAs?
 	LDA #$01

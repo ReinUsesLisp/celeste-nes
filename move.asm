@@ -7,20 +7,20 @@
 	JSR BreakableBlock
 	
 	PLA
-	BNE UP_MoveDone\@
+	BNE done\@
 
 	LDA speed_\1+1
-	BMI UP_MoveNegative\@
+	BMI negative\@
 	
-UP_MovePositive\@:
+positive\@:
 	LDA player_\1+1
 	AND #%11111000
 	STA player_\1+1
 	LDA #$FF
 	STA player_\1
-	JMP UP_MoveFinish\@
+	JMP finish\@
 
-UP_MoveNegative\@:
+negative\@:
 	LDA player_\1+1
 	JSR Divide08
 	CLC
@@ -30,11 +30,11 @@ UP_MoveNegative\@:
 	LDA #$00
 	STA player_\1
 
-UP_MoveFinish\@:
+finish\@:
 	LDA #$00
 	STA speed_\1
 	STA speed_\1+1
-UP_MoveDone\@:
+done\@:
 	.endm
 
 	MOVE_AXIS x

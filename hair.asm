@@ -1,3 +1,4 @@
+Hair:	
 	LDA frames
 	AND #%00000011		; Get an iterating 0-3 for hair index
 	TAY
@@ -5,12 +6,12 @@
 	LDA player_x+1
 	SEC
 	LDX flip_x
-	BEQ HairRight
+	BEQ .right
 	SBC #$01
-	JMP HairSetX
-HairRight:
+	JMP .setX
+.right:
 	ADC #$04
-HairSetX:
+.setX:
 	ASL A
 	STA hairs_x, Y
 

@@ -1,5 +1,6 @@
-	JMP_ZERO J_Done, jbuffer
-	JMP_ZERO J_Wall, grace
+Jump:	
+	JMP_ZERO .done, jbuffer
+	JMP_ZERO .wall, grace
 
 	MOVB #$00, jbuffer
 	MOVB #$00, grace
@@ -8,29 +9,29 @@
 	LDXY #$00, #$04
 	JSR AddSmoke
 
-	JMP J_Done
+	JMP .done
 
-J_Wall:
+.wall:
 	LDA on_wall
 	CMP #$FF
-	BEQ J_WallOnLeft
+	BEQ .onLeft
 	CMP #$01
-	BEQ J_WallOnRight
-	JMP J_WallDone
+	BEQ .onRight
+	JMP .wallDone
 
-J_WallOnLeft:
+.onLeft:
 	LDXY #$FA, #$00
 	MOVCW WALL_JUMP_SPEED_X, speed_x
-	JMP J_WallFinish
+	JMP .wallFinish
 
-J_WallOnRight:
+.onRight:
 	LDXY #$06, #$00
 	MOVCW ($10000-WALL_JUMP_SPEED_X), speed_x
 
-J_WallFinish:
+.wallFinish:
 	JSR AddSmoke
 	MOVCW ($10000-WALL_JUMP_SPEED_Y), speed_y
 	MOVB #$00, jbuffer
-J_WallDone:	
+.wallDone:	
 
-J_Done:	
+.done:	

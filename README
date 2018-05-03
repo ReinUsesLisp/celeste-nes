@@ -13,11 +13,13 @@ real hardware because I don't own an SD cartridge.
 Licensed under GPLv3. Read LICENSE for more details.
 
 Here's a TODO list:
+- Music & SE
+- Screen shake
 - Protagonist's TressFX and move animations (does she slide with her face?)
 - Death animation
 - Speedrun timer
 - Title screen
-- Maps 3 to 30
+- 30 Maps
 - Springs
 - Strawberries grab
 - Breakable blocks (the ones that break when you stand on them)
@@ -30,5 +32,4 @@ Here's a TODO list:
   would be a headache to implement because it would need to change tiles in
   the nametable
 - Better looking smoke (and support for multiple particles at once)
-- Translate assembly code from NESASM to ca65 to avoid dumb labels
 

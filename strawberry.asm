@@ -52,10 +52,10 @@ HideWings:
 	
 DrawStrawberry:
 	LDA strawberry_on
-	BNE DrawStrawberryDo
+	BNE .do
 	JSR HideStrawberry
 	RTS
-DrawStrawberryDo:	
+.do:	
 	LDA strawberry_y
 	ASL A
 	SEC
@@ -110,11 +110,11 @@ DrawFlyStrawberry:
 	LDA frames
 	AND #%00111111
 	CMP #$15
-	BMI DS_NoFixY
+	BMI .noFixY
 	TXA
 	ADC #$04
 	TAX
-DS_NoFixY:
+.noFixY:
 	TXA
 
 	STA SLOT_STRAWBERRY+DRAW_Y+24
@@ -128,24 +128,24 @@ DS_NoFixY:
 	LDA frames
 	AND #%00111111
 	CMP #$2A
-	BPL DS_MidWings
+	BPL .midWings
 	CMP #$15
-	BPL DS_LowWings
-DS_HighWings:	
+	BPL .lowWings
+.highWings:	
 	LDA #$22
 	LDX #$23
 	LDY #$33
-	JMP DS_SetTile
-DS_MidWings:
+	JMP .setTile
+.midWings:
 	LDA #$34
 	LDX #$35
 	LDY #$0D
-	JMP DS_SetTile
-DS_LowWings:
+	JMP .setTile
+.lowWings:
 	LDA #$24
 	LDX #$25
 	LDY #$0D
-DS_SetTile:
+.setTile:
 	STA SLOT_STRAWBERRY+DRAW_TILE+24
 	STX SLOT_STRAWBERRY+DRAW_TILE+28
 	STY SLOT_STRAWBERRY+DRAW_TILE+32
@@ -183,18 +183,18 @@ UpdateStrawberry:
 	;; Animate strawberry
 	LDA frames
 	AND #%00011111
-	BNE US_AnimEnd
+	BNE .animEnd
 	LDX strawberry_y
 	LDA frames
-	BPL US_AnimDown
+	BPL .animDown
 	INX
-	JMP US_AnimFinish
-US_AnimDown:
+	JMP .animFinish
+.animDown:
 	DEX
-US_AnimFinish:
+.animFinish:
 	TXA
 	STA strawberry_y
-US_AnimEnd:
+.animEnd:
 
 	LDA #$01
 	STA flag_strawberry
@@ -206,28 +206,28 @@ US_AnimEnd:
 	STA rectangle_height
 	
 	JSR PlayerAt
-	BNE US_Grab
-	JMP US_Finish
-US_Grab:
+	BNE .grab
+	JMP .finish
+.grab:
 	;; Play animation
 	;; Show 1000
 	;; Give reward
-US_Finish:
+.finish:
 	LDA strawberry_fly
 	BNE UpdateFlyStrawberry
 	RTS
 
 UpdateFlyStrawberry:
 	LDA dash
-	BEQ UFS_NoFlyAway
+	BEQ .noFlyAway
 	LDA #$01
 	STA strawberry_fly_away
-UFS_NoFlyAway:
+.noFlyAway:
 
 	LDA strawberry_fly_away
-	BEQ UFS_End
+	BEQ .end
 	DEC strawberry_y
-	BPL UFS_End
+	BPL .end
 	LDA #$00
 	STA strawberry_on
 	;; Put the strawberry somewhere it can't be touched
@@ -235,5 +235,5 @@ UFS_NoFlyAway:
 	STA strawberry_x
 	STA strawberry_y
 	
-UFS_End:	
+.end:	
 	RTS

@@ -1,28 +1,29 @@
+SpeedX:	
 	MOVW speed_x, value
 
 	LDA input
-	BEQ USX_Zero
-	BMI USX_Left
-USX_Right:
+	BEQ .zero
+	BMI .left
+.right:
 	LDCXY MAX_RUN
-	JMP USX_L1
+	JMP .L1
 	
-USX_Zero:
+.zero:
 	LDCXY $0000
-	JMP USX_L1
-	
-USX_Left:
+	JMP .L1
+
+.left:
 	LDCXY $10000-MAX_RUN
 
-USX_L1:
+.L1:
 	STXY target
 
 	LDY speed_x+1
-	BMI USX_ApplyAbsolute
+	BMI .applyAbsolute
 	LDX speed_x
-	JMP USX_CompareSpeed
+	JMP .compareSpeed
 	
-USX_ApplyAbsolute:
+.applyAbsolute:
 	LDA speed_x
 	EOR #$FF
 	INC A
@@ -32,28 +33,28 @@ USX_ApplyAbsolute:
 	INC A
 	TAY
 	
-USX_CompareSpeed:
+.compareSpeed:
 	CPY #HIGH(MAX_RUN)
-	BEQ USX_CompareSpeedLow
-	BMI USX_Accelerate
-	JMP USX_Deaccelerate
-USX_CompareSpeedLow:
+	BEQ .compareSpeedLow
+	BMI .accelerate
+	JMP .deaccelerate
+.compareSpeedLow:
 	CPX #LOW(MAX_RUN)
-	BMI USX_Accelerate
+	BMI .accelerate
 
-USX_Deaccelerate:
+.deaccelerate:
 	LDX #NORMAL_DEACCEL
-	JMP USX_Finish
+	JMP .finish
 
-USX_Accelerate:	
+.accelerate:	
 	LDA on_ground
-	BEQ USX_OnAir
+	BEQ .onAir
 	LDX #NORMAL_ACCEL
-	JMP USX_Finish
-USX_OnAir:	
+	JMP .finish
+.onAir:	
 	LDX #AIR_ACCEL
 
-USX_Finish:
+.finish:
 	STX amount
 	LDY #$00
 	STY amount+1
@@ -62,18 +63,18 @@ USX_Finish:
 
 	;; Flip
 	LDA speed_x
-	BNE USX_Flip
+	BNE .flip
 	LDA speed_x+1
-	BNE USX_Flip
-	JMP USX_Done
-USX_Flip:
+	BNE .flip
+	JMP .done
+.flip:
 	LDA speed_x+1		; Check sign with higher value
-	BPL USX_TurnRight
+	BPL .turnRight
 	LDA #$00
-	JMP USX_FlipDo
-USX_TurnRight:
+	JMP .flipDo
+.turnRight:
 	LDA #$01
-USX_FlipDo:
+.flipDo:
 	STA flip_x
 	
-USX_Done:	
+.done:	

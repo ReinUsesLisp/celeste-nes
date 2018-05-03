@@ -1,29 +1,30 @@
+JumpInput:	
 	JSR InputA
 	PHA			; Save if A is pressed
-	BEQ JI_NoJump
+	BEQ .no
 	LDA p_jump
-	BNE JI_NoJump
+	BNE .no
 	;; Jump will be done
 	LDA #$08
 	STA jbuffer
 	LDA #$01
-	JMP JI_SetPress
-JI_NoJump:
+	JMP .setPress
+.no:
 	;; Jump won't be done
 	LDA jbuffer
-	BEQ JI_NoJumpFinish
+	BEQ .noFinish
 	DEC jbuffer		; Decrease when it's non-zero
-JI_NoJumpFinish:	
+.noFinish:	
 	LDA #$00
-JI_SetPress:
+.setPress:
 	STA jump		; A holds new jump status
 	
 	PLA			; Restore if A was pressed
-	BEQ JI_NotPressed
+	BEQ .notPressed
 	LDA #$01
-	JMP JI_Done
-JI_NotPressed:
+	JMP .done
+.notPressed:
 	LDA #$00
-JI_Done:
+.done:
 	STA p_jump
 	

@@ -1,24 +1,23 @@
-;;; Update grace
-
+Grace:	
 	LDA on_ground
-	BEQ UG_Air
+	BEQ .air
 
 	LDA #$0C
 	STA grace
 
 	LDA djump
 	CMP #MAX_DJUMP
-	BMI UG_LimitDJump
-	JMP UG_Finish
+	BMI .limit
+	JMP .done
 
-UG_LimitDJump:
+.limit:
 	LDA #MAX_DJUMP
 	STA djump
-	JMP UG_Finish
+	JMP .done
 
-UG_Air:
+.air:
 	LDA grace
-	BEQ UG_Finish
+	BEQ .done
 	DEC grace
 
-UG_Finish:	
+.done:	

@@ -1,9 +1,9 @@
 BreakableBlock:	
 	LDA dash_time
-	BEQ BB_Done
+	BEQ .done
 
 	JSR InBreakableBlock
-	BNE BB_Done
+	BNE .done
 
 	JSR FindBreakable
 	TYA
@@ -27,7 +27,7 @@ BreakableBlock:
 	LDA #$01
 	STA flag_ppu_refresh
 	STA strawberry_on
-BB_Done:
+.done:
 	RTS
 	
 
@@ -82,14 +82,14 @@ HideBreakableRow:
 
 FindBreakable:
 	LDY #$00
-FB_Loop:
+.loop:
 	LDA world, Y
 	CMP #TILE_BREAKABLE
-	BEQ FB_Found
+	BEQ .found
 	INY
-	BNE FB_Loop
+	BNE .loop
 	LDA #$01
 	RTS
-FB_Found:
+.found:
 	LDA #$00
 	RTS

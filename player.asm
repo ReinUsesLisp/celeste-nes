@@ -29,24 +29,24 @@ DrawPlayer:
 	STA PPUADDR
 
 	LDA djump
-	BEQ DP_NoDashes
+	BEQ .noDashes
 	CMP #$01
-	BEQ DP_OneDash
+	BEQ .oneDash
 	;; Multiple dashes
 	LDA frames
 	AND #%00100000
-	BEQ DP_BlinkON
+	BEQ .blinkON
 	LDA #$1A		; Green
-	JMP DP_SetPaletteColor
-DP_BlinkON:
+	JMP .setPaletteColor
+.blinkON:
 	LDA #$30		; White
-	JMP DP_SetPaletteColor
-DP_OneDash:
+	JMP .setPaletteColor
+.oneDash:
 	LDA #$16		; Red
-	JMP DP_SetPaletteColor
-DP_NoDashes:
+	JMP .setPaletteColor
+.noDashes:
 	LDA #$2C		; Lightblue
-DP_SetPaletteColor:
+.setPaletteColor:
 	STA PPUDATA
 
 	;; Draw body
@@ -65,7 +65,7 @@ DP_SetPaletteColor:
 	STA SLOT_BODY_BR + DRAW_Y
 
 	LDA flip_x
-	BEQ DP_FlipON
+	BEQ .flipON
 	MOVB #$00, SLOT_BODY_TL + DRAW_TILE
 	MOVB #$01, SLOT_BODY_TR + DRAW_TILE
 	MOVB #$10, SLOT_BODY_BL + DRAW_TILE
@@ -75,8 +75,8 @@ DP_SetPaletteColor:
 	SBC #$01		; Substract 2, carry is clear
 	STA SLOT_BACK_HAIR + DRAW_X
 	LDA #%00000000
-	JMP DP_FlipFinish
-DP_FlipON:
+	JMP .flipFinish
+.flipON:
 	MOVB #$01, SLOT_BODY_TL + DRAW_TILE
 	MOVB #$00, SLOT_BODY_TR + DRAW_TILE
 	MOVB #$11, SLOT_BODY_BL + DRAW_TILE
@@ -86,7 +86,7 @@ DP_FlipON:
 	ADC #$0A
 	STA SLOT_BACK_HAIR + DRAW_X
 	LDA #%01000000
-DP_FlipFinish:
+.flipFinish:
 	STA SLOT_BODY_TL + DRAW_ATTR
 	STA SLOT_BODY_TR + DRAW_ATTR
 	STA SLOT_BODY_BL + DRAW_ATTR

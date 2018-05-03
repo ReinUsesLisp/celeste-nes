@@ -43,25 +43,25 @@ SolidAt:
 	TXA
 	CLC
 	ADC player_x+1
-	BMI SA_Solid
+	BMI .solid
 	CMP #$80
-	BPL SA_Solid
+	BPL .solid
 
 	TYA
 	CLC
 	ADC player_y+1
-	BMI SA_NotSolid
+	BMI .notSolid
 	CMP #$78
-	BPL SA_NotSolid
+	BPL .notSolid
 
 	JSR PlayerTile
-	BEQ SA_NotSolid
+	BEQ .notSolid
 	CMP #TILE_SOLIDS
-	BMI SA_Solid
-SA_NotSolid:
+	BMI .solid
+.notSolid:
 	LDA #$01
 	RTS
-SA_Solid:
+.solid:
 	LDA #$00
 	RTS
 
@@ -76,34 +76,34 @@ InSolid:
 
 InBotSpikes:
 	TEST_IN BotSpikesAt
-	BNE InBotSpikesEnd
+	BNE .end
 	LDA player_y+1
 	AND #%00000111
 	CMP #$06
-	BMI InBotSpikesNo
+	BMI .no
 	LDA #$00
 	RTS
-InBotSpikesNo:
+.no:
 	LDA #$01
-InBotSpikesEnd:	
+.end:	
 	RTS
 
 InSpikes:
 	JSR InBotSpikes
-	BEQ InSpikesFinish
-InSpikesFinish:
+	BEQ .finish
+.finish:
 	RTS
 
 BreakableBlockAt:
 	JSR PlayerTile
 	CMP #$21
-	BEQ BreakableBlockAtFinish
+	BEQ .finish
 	CMP #$22
-	BEQ BreakableBlockAtFinish
+	BEQ .finish
 	CMP #$23
-	BEQ BreakableBlockAtFinish
+	BEQ .finish
 	CMP #$24
-BreakableBlockAtFinish:	
+.finish:	
 	RTS
 	
 InBreakableBlock:	

@@ -1,9 +1,10 @@
-	JMP_NONZERO D_Continue1, djump
-	JMP D_Done
-D_Continue1:
-	JMP_NONZERO D_Continue2, dash
-	JMP D_Done
-D_Continue2:	
+Dash:	
+	JMP_NONZERO .continue1, djump
+	JMP .done
+.continue1:
+	JMP_NONZERO .continue2, dash
+	JMP .done
+.continue2:	
 
 	LDXY #$00, #$00
 	DEC djump
@@ -16,103 +17,101 @@ D_Continue2:
 	MOVCW DASH_ACCEL, dash_accel_y
 	
 	;; WARNING: Branch hell below
-Branch1:	
+.branch1:	
 	LDA input
-	BNE Branch2
-	JMP Branch5
+	BNE .branch2
+	JMP .branch5
 
-Branch2:
+.branch2:
 	JSR InputUp
-	BNE Branch3minus
+	BNE .branch3minus
 	JSR InputDown
-	BNE Branch2plus
-	JMP Branch4
-Branch2plus:
-	JMP Branch3plus
+	BNE .branch2plus
+	JMP .branch4
+.branch2plus:
+	JMP .branch3plus
 
-Branch4:
+.branch4:
 	LDA input
-	BMI Branch4minus
-Branch4plus:
+	BMI .branch4minus
+.branch4plus:
 	MOVCW FULL_DASH, speed_x
 	MOVCW FULL_TARGET, dash_target_x
 	MOVCW $0000, speed_y
 	MOVCW $0000, dash_target_y
-	JMP Branch7
+	JMP .branch7
 
-Branch4minus:
+.branch4minus:
 	MOVCW $10000-FULL_DASH, speed_x
 	MOVCW $10000-FULL_TARGET, dash_target_x
 	MOVCW $0000, speed_y
 	MOVCW $0000, dash_target_y
-	JMP Branch7
+	JMP .branch7
 	
-Branch3minus:
+.branch3minus:
 	MOVCW HALF_DASH_ACCEL, dash_accel_x
 	MOVCW HALF_DASH_ACCEL, dash_accel_y
 	LDA input
-	BMI Branch3minusMinus
-Branch3minusPlus:
+	BMI .branch3minusMinus
+.branch3minusPlus:
 	MOVCW HALF_DASH, speed_x
 	MOVCW HALF_TARGET, dash_target_x
 	MOVCW $10000-HALF_DASH, speed_y
 	MOVCW $10000-HALF_TARGET_UP, dash_target_y
-	JMP Branch7
+	JMP .branch7
 
-Branch3minusMinus:	
+.branch3minusMinus:	
 	MOVCW $10000-HALF_DASH, speed_x
 	MOVCW $10000-HALF_TARGET, dash_target_x
 	MOVCW $10000-HALF_DASH, speed_y
 	MOVCW $10000-HALF_TARGET_UP, dash_target_y
-	JMP Branch7
+	JMP .branch7
 
-Branch3plus:
+.branch3plus:
 	MOVCW HALF_DASH_ACCEL, dash_accel_x
 	MOVCW HALF_DASH_ACCEL, dash_accel_y
 	LDA input
-	BMI Branch3plusMinus
+	BMI .branch3plusMinus
 
-Branch3plusPlus:
+.branch3plusPlus:
 	MOVCW HALF_DASH, speed_x
 	MOVCW HALF_TARGET, dash_target_x
 	MOVCW HALF_DASH, speed_y
 	MOVCW HALF_TARGET, dash_target_y
-	JMP Branch7
+	JMP .branch7
 
-Branch3plusMinus:
+.branch3plusMinus:
 	MOVCW $10000-HALF_DASH, speed_x
 	MOVCW $10000-HALF_TARGET, dash_target_x
 	MOVCW HALF_DASH, speed_y
 	MOVCW HALF_TARGET_UP, dash_target_y
-	JMP Branch7
+	JMP .branch7
 
-Branch5:
+.branch5:
 	JSR InputUp
-	BNE Branch6minus
+	BNE .branch6minus
 	JSR InputDown
-	BNE Branch6plus
-Branch8:
+	BNE .branch6plus
+.branch8:
 	LDA flip_x
-	BEQ Branch8minus
-	JMP Branch4plus
-Branch8minus:
-	JMP Branch4minus
+	BEQ .branch8minus
+	JMP .branch4plus
+.branch8minus:
+	JMP .branch4minus
 
-Branch6plus:
+.branch6plus:
 	MOVCW $0000, speed_x
 	MOVCW $0000, dash_target_x
 	MOVCW FULL_DASH, speed_y
 	MOVCW FULL_TARGET, dash_target_y
-	JMP Branch7
+	JMP .branch7
 
-Branch6minus:
+.branch6minus:
 	MOVCW $0000, speed_x
 	MOVCW $0000, dash_target_x
 	MOVCW $10000-FULL_DASH, speed_y
 	MOVCW $10000-FULL_TARGET_UP, dash_target_y
-	JMP Branch7
+	JMP .branch7
 
-Branch7:
-	
-	
-D_Done:	
+.branch7:
+.done:	

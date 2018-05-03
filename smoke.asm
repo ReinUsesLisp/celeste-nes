@@ -1,6 +1,6 @@
 AddSmoke:
 	LDA last_smoke
-	BNE AddSmokeDone
+	BNE .done
 
 	TYA
 	PHA
@@ -10,9 +10,9 @@ AddSmoke:
 	CLC
 	ADC player_x+1
 	LDX flip_x
-	BNE AddSmokeSetX
+	BNE .setX
 	ADC #$02
-AddSmokeSetX:
+.setX:
 	ASL A
 	STA smoke_x, Y
 
@@ -34,25 +34,25 @@ AddSmokeSetX:
 	LDA #$03
 	STA last_smoke
 
-AddSmokeDone:
+.done:
 	RTS
 
 	
 UpdateSmoke:
 	LDA last_smoke
-	BEQ UpdateSmokeNoDecrease
+	BEQ .noDecrease
 	DEC last_smoke
-UpdateSmokeNoDecrease:
+.noDecrease:
 
 	;; Update some frames
 	LDA frames
 	AND #%00000001
-	BNE UpdateSmokeDone
+	BNE .done
 	
 	LDY #$00
-UpdateSmokeLoop:
+.loop:
 	LDA smoke_counter, Y
-	BEQ UpdateSmokeCheckLoop
+	BEQ .checkLoop
 
 	CLC
 	LDA smoke_x, Y
@@ -67,12 +67,12 @@ UpdateSmokeLoop:
 	SBC #$01		; Substract 1, carry is set
 	STA smoke_counter, Y
 
-UpdateSmokeCheckLoop:	
+.checkLoop:	
 	INY
 	CPY #$04
-	BEQ UpdateSmokeLoop
+	BEQ .loop
 	
-UpdateSmokeDone:
+.done:
 	LDA #$01
 	STA flag_oam
 	STA flag_smoke
