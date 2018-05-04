@@ -35,8 +35,9 @@ Reset:
 	STX PPUMASK  ; Disable rendering
 	STX $4010    ; Disable DMC IRQs
 
+	BIT PPUSTATUS
 VBlankWait1:
-	BIT $2002
+	BIT PPUSTATUS
 	BPL VBlankWait1
 
 ClearMemory:
@@ -54,7 +55,7 @@ ClearMemory:
 	BNE ClearMemory
    
 VBlankWait2:
-	BIT $2002
+	BIT PPUSTATUS
 	BPL VBlankWait2
 
 LoadPalettes:

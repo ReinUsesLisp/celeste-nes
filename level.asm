@@ -22,6 +22,13 @@ LoadLevel:
 	JSR PreparePlayer
 	JSR ResetStrawberry
 
+	;; Hide hair
+	LDA #$00
+	STA hairs_y
+	STA hairs_y+1
+	STA hairs_y+2
+	STA hairs_y+3
+
 	LDY #$F0
 	JSR PopWorld
 	STA player_x+1
