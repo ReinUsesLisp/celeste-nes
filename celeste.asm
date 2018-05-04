@@ -92,6 +92,10 @@ ClearSprites:
 	JSR ClearWorld
 	JSR FirstLevel
 
+	LDA #PPU_CONTROL_FLAGS
+	STA PPUCTRL
+	LDA PPUSTATUS
+
 	JSR PPU_TurnON
 
 MainLoop:
@@ -153,20 +157,25 @@ NMI_HideBlock:
 	STA flag_hide_block
 .skip:	
 
-NMI_PPU_Refresh:	
-	LDA flag_ppu_refresh
-	BEQ .skip
+NMI_TurnPPU:	
+	LDA flag_ppu
+	BEQ .off
+.on:
+	LDA #PPU_MASK_FLAGS
+	JMP .finish
+.off:
+	LDA #$00
+.finish:
+	STA PPUMASK
+	LDA PPUSTATUS
 
 	LDA #PPU_CONTROL_FLAGS
 	STA PPUCTRL
 	
-	BIT PPUSTATUS
 	LDA #$00
 	STA PPUSCROLL
 	STA PPUSCROLL
-
-	DEC flag_ppu_refresh
-.skip:
+	
 	
 	INC frames
 	INC snowflakes_counter
@@ -180,6 +189,7 @@ NMI_PPU_Refresh:
 	TAX
 	PLA
 	RTI
+
 	
 	.bank 1
 	.org $E000

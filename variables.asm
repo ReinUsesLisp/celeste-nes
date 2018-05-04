@@ -53,12 +53,12 @@ objects_y .rs 8
 	
 nmi_retraces .rs 1
 flag_oam .rs 1
-flag_ppu_refresh .rs 1
 flag_player .rs 1
 flag_smoke .rs 1
 flag_strawberry .rs 1
 flag_hide_block .rs 1
-flag_snowflakes .rs 1	
+flag_snowflakes .rs 1
+flag_ppu .rs 1	
 
 rectangle_x .rs 1
 rectangle_y .rs 1

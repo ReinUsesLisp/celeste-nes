@@ -25,7 +25,6 @@ BreakableBlock:
 	PLA
 	STA flag_hide_block
 	LDA #$01
-	STA flag_ppu_refresh
 	STA strawberry_on
 .done:
 	RTS

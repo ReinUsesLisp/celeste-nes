@@ -14,7 +14,7 @@ Licensed under GPLv3. Read LICENSE for more details.
 
 Here's a TODO list:
 - Music & SE
-- Screen shake
+- Screen shake when dashing
 - Protagonist's TressFX and move animations (does she slide with her face?)
 - Death animation
 - Speedrun timer
@@ -26,7 +26,6 @@ Here's a TODO list:
 - Chests and keys
 - Spikes that are not in the bottom
 - Jewels / Baloons
-- Fix scrolling when re/loading world
 - Snowflakes
 - Wind? in the background. I think this one is possible on the NES, but it
   would be a headache to implement because it would need to change tiles in

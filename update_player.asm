@@ -151,7 +151,6 @@ _UpdatePlayer:
 	;; FIXME what happens if NMI gets between STAs?
 	LDA #$01
 	STA flag_oam
-	STA flag_ppu_refresh
 	STA flag_player
 
 	RTS
