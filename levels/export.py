@@ -3,7 +3,7 @@ import json
 
 data = json.load(open(sys.argv[1]))
 
-palettes = { 62: 2, 63: 2, 64: 2 }
+palettes = { 37: 1, 44: 1, 62: 2, 63: 2, 64: 2 }
 def map_tile(tile):
     tile_id = tile - 1
     return tile_id | palettes.get(tile, 0) << 6
